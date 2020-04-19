@@ -10,7 +10,7 @@ class App extends Component {
         id: 0,
         text: "zagrać wreszcie w wiedźmina 3",
         date: "2020-09-15",
-        important: false,
+        important: true,
         active: true,
         finishDate: null,
       },
@@ -18,8 +18,8 @@ class App extends Component {
         id: 1,
         text: "kupić babeczki",
         date: "2020-08-19",
-        important: true,
-        active: false,
+        important: false,
+        active: true,
         finishDate: null,
       },
       {
@@ -40,6 +40,8 @@ class App extends Component {
       },
     ],
   };
+
+  counter = this.state.tasks.length;
 
   deleteTask = (id) => {
     // ******  SPOSÓB 1 - FIND INDEX ******
@@ -65,10 +67,28 @@ class App extends Component {
     });
     this.setState({ tasks });
   };
+
+  addTask = (text, date, important) => {
+    const task = {
+      id: this.counter,
+      text, //text z inputa
+      date, //data z inputa
+      important, //wartość z inputa
+      active: true,
+      finishDate: null,
+    };
+    this.counter++;
+    console.log(task, this.counter);
+    this.setState((prevState) => ({
+      tasks: [...prevState.tasks, task],
+    }));
+    return true;
+  };
   render() {
     return (
       <div className="App">
-        <AddTask />
+        <h1>TODO APP</h1>
+        <AddTask add={this.addTask} />
         <TaskList
           tasks={this.state.tasks}
           delete={this.deleteTask}
